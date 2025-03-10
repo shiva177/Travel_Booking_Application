@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book Your Travel{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>Book Your Travel</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <h4>Travel Details</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Travel Type:</th>
+                            <td>{{ travel.get_type_display }}</td>
+                        </tr>
+                        <tr>
+                            <th>From:</th>
+                            <td>{{ travel.source }}</td>
+                        </tr>
+                        <tr>
+                            <th>To:</th>
+                            <td>{{ travel.destination }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date & Time:</th>
+                            <td>{{ travel.date_time }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price per seat:</th>
+                            <td>${{ travel.price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Available Seats:</th>
+                            <td>{{ travel.available_seats }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="col-md-5">
+                    <h4>Booking Information</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="alert alert-info">
+                            You are logged in as: {{ user.username }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_seats" class="form-label">Number of Seats:</label>
+                            {{ form.seats }}
+                            {% if form.seats.errors %}
+                                <div class="text-danger">
+                                    {{ form.seats.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Total Price:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="total_price" value="{{ travel.price }}" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Confirm Booking</button>
+                            <a href="{% url 'travel_detail' travel.id %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const seatsInput = document.getElementById('id_seats');
+        const totalPriceInput = document.getElementById('total_price');
+        const pricePerSeat = {{ travel.price }};
+        
+        seatsInput.addEventListener('change', function() {
+            const seats = parseInt(this.value) || 0;
+            const totalPrice = (seats * pricePerSeat).toFixed(2);
+            totalPriceInput.value = totalPrice;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

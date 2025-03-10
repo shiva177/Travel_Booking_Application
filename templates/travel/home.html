@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Travel Booking{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Hero Section -->
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Find Your Perfect Journey</h1>
+            <p class="col-md-8 fs-4">Discover flights, trains, and bus trips at the best prices. Book your travel and start your adventure today!</p>
+            <a href="{% url 'travel_list' %}" class="btn btn-primary btn-lg">Browse Travel Options</a>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3>Quick Search</h3>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'travel_list' %}" method="get">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="type" class="form-label">Travel Type</label>
+                        <select name="type" id="type" class="form-select">
+                            <option value="">All Types</option>
+                            <option value="FLIGHT">Flight</option>
+                            <option value="TRAIN">Train</option>
+                            <option value="BUS">Bus</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="source" class="form-label">From</label>
+                        <input type="text" class="form-control" id="source" name="source" placeholder="City or Airport">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="destination" class="form-label">To</label>
+                        <input type="text" class="form-control" id="destination" name="destination" placeholder="City or Airport">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="date" class="form-label">Travel Date</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                    </div>
+                    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Featured Travel Options -->
+    <h3 class="mb-3">Featured Travel Options</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        {% for travel in featured_travels %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="badge bg-info">{{ travel.get_type_display }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ travel.source }} to {{ travel.destination }}</h5>
+                    <p class="card-text">
+                        <strong>Date:</strong> {{ travel.date_time|date:"F d, Y" }}<br>
+                        <strong>Time:</strong> {{ travel.date_time|time:"h:i A" }}<br>
+                        <strong>Price:</strong> ${{ travel.price }}<br>
+                        <strong>Available Seats:</strong> {{ travel.available_seats }}
+                    </p>
+                </div>
+                <div class="card-footer d-grid">
+                    <a href="{% url 'travel_detail' travel.id %}" class="btn btn-outline-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No featured travel options available right now.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h3 class="mb-3">Why Choose Us</h3>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-shield-check fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">Safe & Secure</h5>
+                    <p class="card-text">Book with confidence knowing your personal and payment information is secure.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-piggy-bank fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">Best Prices</h5>
+                    <p class="card-text">We offer competitive prices on all travel options with no hidden fees.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-headset fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">24/7 Support</h5>
+                    <p class="card-text">Our customer support team is available around the clock to assist you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ travel.source }} to {{ travel.destination }} - Travel Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>Travel Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>{{ travel.source }} to {{ travel.destination }}</h3>
+                    <div class="badge bg-info mb-3">{{ travel.get_type_display }}</div>
+                    
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Travel ID:</th>
+                            <td>{{ travel.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>From:</th>
+                            <td>{{ travel.source }}</td>
+                        </tr>
+                        <tr>
+                            <th>To:</th>
+                            <td>{{ travel.destination }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date & Time:</th>
+                            <td>{{ travel.date_time }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price:</th>
+                            <td>${{ travel.price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Available Seats:</th>
+                            <td>{{ travel.available_seats }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h4>Book This Trip</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if travel.available_seats > 0 %}
+                                <p>Price per seat: ${{ travel.price }}</p>
+                                <a href="{% url 'booking_form' travel.id %}" class="btn btn-primary w-100">Book Now</a>
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    Sorry, no seats available for this trip.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{% url 'travel_list' %}" class="btn btn-secondary">Back to Travel List</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
