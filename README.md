@@ -36,4 +36,9 @@ A simple **travel booking web application** built with **Django** that allows us
 git clone https://github.com/yourusername/travel-booking.git && cd travel-booking
 python3 -m venv venv && source venv/bin/activate  # On macOS/Linux
 venv\Scripts\activate  # On Windows
-pip install -r requirements.txt
+python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py createsuperuser
+python3 manage.py runserver
+
+
+
+
