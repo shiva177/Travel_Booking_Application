@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings - Travel Booking{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">My Bookings</h1>
+
+{% if bookings %}
+<div class="row">
+    {% for booking in bookings %}
+    <div class="col-md-6 mb-4">
+        <div class="card booking-card {{ booking.status|lower }}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Booking #{{ booking.booking_id }}</h5>
+                <span class="badge {% if booking.status == 'Confirmed' %}bg-success{% else %}bg-danger{% endif %}">
+                    {{ booking.status }}
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Travel Details:</h6>
+                    <p>{{ booking.travel_option.source }} to {{ booking.travel_option.destination }}</p>
+                    <p>{{ booking.travel_option.departure_date|date:"M d, Y" }} at {{ booking.travel_option.departure_time }}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Booking Details:</h6>
+                    <p>Seats: {{ booking.num_seats }}</p>
+                    <p>Total Price: ${{ booking.total_price }}</p>
+                    <p>Booked on: {{ booking.booking_date|date:"M d, Y" }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'booking-detail' booking.booking_id %}" class="btn btn-primary">View Details</a>
+                    {% if booking.status == 'Confirmed' %}
+                    <a href="{% url 'booking-cancel' booking.booking_id %}" class="btn btn-danger">Cancel Booking</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    You don't have any bookings yet. <a href="{% url 'travel-list' %}">Browse travel options</a> to make a booking.
+</div>
+{% endif %}
+{% endblock %}
+

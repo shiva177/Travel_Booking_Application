@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Cancel Booking - Travel Booking{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Cancel Booking</h4>
+    </div>
+    <div class="card-body">
+        <p>Are you sure you want to cancel your booking #{{ booking.booking_id }} for travel from {{ booking.travel_option.source }} to {{ booking.travel_option.destination }}?</p>
+        
+        <div class="alert alert-warning">
+            <p><strong>Booking Details:</strong></p>
+            <p>Travel Type: {{ booking.travel_option.type }}</p>
+            <p>Departure: {{ booking.travel_option.departure_date|date:"F d, Y" }} at {{ booking.travel_option.departure_time }}</p>
+            <p>Number of Seats: {{ booking.num_seats }}</p>
+            <p>Total Price: ${{ booking.total_price }}</p>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Cancel Booking</button>
+            <a href="{% url 'booking-detail' booking.booking_id %}" class="btn btn-outline-secondary">No, Keep Booking</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

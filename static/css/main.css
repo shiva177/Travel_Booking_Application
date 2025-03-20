@@ -1,0 +1,69 @@
+/* Custom styles for the Travel Booking application */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.travel-option {
+  border-left: 4px solid #007bff;
+}
+
+.travel-option.flight {
+  border-left-color: #007bff;
+}
+
+.travel-option.train {
+  border-left-color: #28a745;
+}
+
+.travel-option.bus {
+  border-left-color: #ffc107;
+}
+
+.booking-card {
+  border-left: 4px solid #6c757d;
+}
+
+.booking-card.confirmed {
+  border-left-color: #28a745;
+}
+
+.booking-card.cancelled {
+  border-left-color: #dc3545;
+}
+
+.filter-form {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.jumbotron {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/images/travel-banner.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+

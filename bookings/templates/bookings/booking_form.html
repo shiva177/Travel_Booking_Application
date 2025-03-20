@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Book Travel - Travel Booking{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4 travel-option {{ travel.type|lower }}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ travel.source }} to {{ travel.destination }}</h5>
+                <span class="badge bg-primary">{{ travel.type }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Departure:</strong></p>
+                        <p>{{ travel.departure_date|date:"M d, Y" }} at {{ travel.departure_time }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Arrival:</strong></p>
+                        <p>{{ travel.arrival_date|date:"M d, Y" }} at {{ travel.arrival_time }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Price per Seat:</strong></p>
+                        <p>${{ travel.price }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Available Seats:</strong></p>
+                        <p>{{ travel.available_seats }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Book Your Travel</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Total Price:</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" id="total-price" value="{{ travel.price }}" readonly>
+                            <input type="hidden" name="total_price" id="id_total_price" value="{{ travel.price }}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Confirm Booking</button>
+                        <a href="{% url 'travel-detail' travel.travel_id %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

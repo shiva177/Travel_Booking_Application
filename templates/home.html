@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Travel Booking{% endblock %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome to Travel Booking</h1>
+        <p class="col-md-8 fs-4">Book your next adventure with us. We offer a wide range of travel options including flights, trains, and buses to destinations worldwide.</p>
+        <a href="{% url 'travel-list' %}" class="btn btn-primary btn-lg">Browse Travel Options</a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Flights</h5>
+                <p class="card-text">Explore our flight options to destinations around the world.</p>
+                <a href="{% url 'travel-list' %}?type=Flight" class="btn btn-outline-primary">View Flights</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Trains</h5>
+                <p class="card-text">Discover train journeys to various destinations.</p>
+                <a href="{% url 'travel-list' %}?type=Train" class="btn btn-outline-primary">View Trains</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Buses</h5>
+                <p class="card-text">Find bus routes to your favorite destinations.</p>
+                <a href="{% url 'travel-list' %}?type=Bus" class="btn btn-outline-primary">View Buses</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Popular Destinations</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">New York</li>
+                    <li class="list-group-item">London</li>
+                    <li class="list-group-item">Tokyo</li>
+                    <li class="list-group-item">Paris</li>
+                    <li class="list-group-item">Sydney</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Why Choose Us?</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Wide range of travel options</li>
+                    <li class="list-group-item">Competitive prices</li>
+                    <li class="list-group-item">Easy booking process</li>
+                    <li class="list-group-item">24/7 customer support</li>
+                    <li class="list-group-item">Secure payment options</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

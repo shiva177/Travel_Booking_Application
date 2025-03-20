@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ travel.source }} to {{ travel.destination }} - Travel Booking{% endblock %}
+
+{% block content %}
+<div class="card mb-4 travel-option {{ travel.type|lower }}">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">{{ travel.source }} to {{ travel.destination }}</h3>
+        <span class="badge bg-primary">{{ travel.type }}</span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5>Departure</h5>
+                <p>{{ travel.departure_date|date:"F d, Y" }} at {{ travel.departure_time }}</p>
+                <h5>From</h5>
+                <p>{{ travel.source }}</p>
+            </div>
+            <div class="col-md-6">
+                <h5>Arrival</h5>
+                <p>{{ travel.arrival_date|date:"F d, Y" }} at {{ travel.arrival_time }}</p>
+                <h5>To</h5>
+                <p>{{ travel.destination }}</p>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5>Price</h5>
+                <p class="text-primary fw-bold">${{ travel.price }}</p>
+            </div>
+            <div class="col-md-6">
+                <h5>Available Seats</h5>
+                <p>{{ travel.available_seats }}</p>
+            </div>
+        </div>
+        
+        {% if travel.description %}
+        <div class="mb-4">
+            <h5>Description</h5>
+            <p>{{ travel.description }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="d-flex justify-content-between">
+            <div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'booking-create' travel.travel_id %}" class="btn btn-success">Book Now</a>
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'booking-create' travel.travel_id %}" class="btn btn-success">Login to Book</a>
+                {% endif %}
+                <a href="{% url 'travel-list' %}" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+            
+            {% if user.is_staff %}
+            <div>
+                <a href="{% url 'travel-update' travel.travel_id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'travel-delete' travel.travel_id %}" class="btn btn-danger">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

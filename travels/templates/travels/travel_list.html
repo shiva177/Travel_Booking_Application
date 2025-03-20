@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Travel Options - Travel Booking{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Travel Options</h1>
+
+<div class="filter-form mb-4">
+    <form method="GET" id="filter-form">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="id_type">Type</label>
+                    {{ form.type }}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="id_source">From</label>
+                    {{ form.source }}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="id_destination">To</label>
+                    {{ form.destination }}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="id_departure_date">Date</label>
+                    {{ form.departure_date }}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="id_max_price">Max Price</label>
+                    {{ form.max_price }}
+                </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <button type="button" id="clear-filters" class="btn btn-outline-secondary">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if user.is_staff %}
+<div class="mb-4">
+    <a href="{% url 'travel-create' %}" class="btn btn-success">Add New Travel Option</a>
+</div>
+{% endif %}
+
+{% if travels %}
+<div class="row">
+    {% for travel in travels %}
+    <div class="col-md-6 mb-4">
+        <div class="card travel-option {{ travel.type|lower }}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ travel.source }} to {{ travel.destination }}</h5>
+                <span class="badge bg-primary">{{ travel.type }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Departure:</strong></p>
+                        <p>{{ travel.departure_date|date:"M d, Y" }} at {{ travel.departure_time }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Arrival:</strong></p>
+                        <p>{{ travel.arrival_date|date:"M d, Y" }} at {{ travel.arrival_time }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Price:</strong></p>
+                        <p>${{ travel.price }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Available Seats:</strong></p>
+                        <p>{{ travel.available_seats }}</p>
+                    </div>
+                </div>
+                <a href="{% url 'travel-detail' travel.travel_id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No travel options found matching your criteria.
+</div>
+{% endif %}
+{% endblock %}
+
